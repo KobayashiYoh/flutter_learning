@@ -1,3 +1,5 @@
+# ユニットテスト
+
 ## 概要
 1日でも早くテストコードを書けるようになっておきたいと考え、Flutterにおけるテストコード（今回はユニットテスト）の書き方を学びました。
 
@@ -87,3 +89,7 @@ void main() {
 
 ## 参考
 https://blog.pentagon.tokyo/2387/
+
+## 後から読んだ記事
+* https://qiita.com/470_aaa/items/75809448e446ee1c91b6
+* https://qiita.com/salvage0707/items/b15412af6951da2069ba
