@@ -12,6 +12,10 @@ class AutofillFormPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
+              decoration: const InputDecoration(labelText: 'ユーザーID'),
+              autofillHints: const [AutofillHints.username],
+            ),
+            TextFormField(
               decoration: const InputDecoration(labelText: 'パスワード'),
               autofillHints: const [AutofillHints.password],
             ),
