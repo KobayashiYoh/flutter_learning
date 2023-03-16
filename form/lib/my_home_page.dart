@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form/autofill_form_page.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -12,7 +13,14 @@ class MyHomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AutofillFormPage(),
+                    ),
+                  );
+                },
                 child: const Text('Autofill Form Page'),
               ),
             ],
