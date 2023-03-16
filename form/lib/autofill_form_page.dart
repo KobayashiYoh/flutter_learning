@@ -13,6 +13,7 @@ class AutofillFormPage extends StatelessWidget {
           children: [
             TextFormField(
               decoration: const InputDecoration(labelText: 'パスワード'),
+              autofillHints: const [AutofillHints.password],
             ),
           ],
         ),
