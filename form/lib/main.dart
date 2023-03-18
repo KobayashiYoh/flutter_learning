@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:form/my_home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +14,35 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const AutofillFormPage(),
+    );
+  }
+}
+
+class AutofillFormPage extends StatelessWidget {
+  const AutofillFormPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: AutofillGroup(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'ユーザーID'),
+                autofillHints: const [AutofillHints.username],
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'パスワード'),
+                autofillHints: const [AutofillHints.password],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
