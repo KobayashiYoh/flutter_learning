@@ -23,6 +23,7 @@ class _CalendarPageState extends State<CalendarPage> {
           lastDay: kLastDay,
           focusedDay: _focusedDay,
           calendarFormat: _calendarFormat,
+          locale: 'ja_JP',
           selectedDayPredicate: (day) {
             return isSameDay(_selectedDay, day);
           },
