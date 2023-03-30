@@ -9,7 +9,9 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Text(dotenv.get('FAKE_API_KEY')),
+          child: Text(
+            dotenv.get('FAKE_API_KEY', fallback: 'Failed to load .env'),
+          ),
         ),
       ),
     );
