@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:oauth/model/access_token.dart';
+import 'package:oauth/repository/qiita_repository.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class SigninPage extends StatefulWidget {
@@ -21,8 +23,16 @@ class _SigninPageState extends State<SigninPage> {
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onPageFinished: (String url) {
+          onPageFinished: (String url) async {
             print(url);
+            final bool hasCode =
+                url.contains('https://qiita.com/settings/applications?code=');
+            if (hasCode) {
+              String code =
+                  url.split('https://qiita.com/settings/applications?code=')[1];
+              final AccessToken accessToken =
+                  await QiitaRepository.createAccessToken(code);
+            }
           },
         ),
       )
