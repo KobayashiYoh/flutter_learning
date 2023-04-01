@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:oauth/signin_page.dart';
 
 void main() async {
   await dotenv.load(fileName: "assets/.env");
@@ -16,16 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const TopPage(),
+      home: const SigninPage(),
     );
-  }
-}
-
-class TopPage extends StatelessWidget {
-  const TopPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold();
   }
 }
