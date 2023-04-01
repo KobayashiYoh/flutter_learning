@@ -3,17 +3,16 @@ import 'dart:io';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:oauth/model/access_token.dart';
 import 'package:oauth/model/user.dart';
 
-class QiitaRepository {
-  static const String baseUrl = 'https://qiita.com';
+class GitHubRepository {
+  static const String baseUrl = 'https://github.com';
 
-  static Future<AccessToken> createAccessToken(String code) async {
+  static Future<String> createAccessToken(String code) async {
     final String clientId = dotenv.get('CLIENT_ID');
     final String clientSecret = dotenv.get('CLIENT_SECRET');
     final response = await http.post(
-      Uri.parse('$baseUrl/api/v2/access_tokens'),
+      Uri.parse('$baseUrl/login/oauth/access_token'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -25,8 +24,10 @@ class QiitaRepository {
         },
       ),
     );
-    if (response.statusCode == 201) {
-      return AccessToken.fromJson(jsonDecode(response.body));
+    if (response.statusCode == 200) {
+      final String accessTokenParameter = response.body.split('&').first;
+      final String accessToken = accessTokenParameter.split('=').last;
+      return accessToken;
     } else {
       throw Exception(
         'Access token request failed with status: ${response.statusCode}',
