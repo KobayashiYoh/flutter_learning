@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:oauth/model/access_token.dart';
 import 'package:oauth/model/user.dart';
 import 'package:oauth/repository/qiita_repository.dart';
+import 'package:oauth/view/user_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class SigninPage extends StatefulWidget {
@@ -14,6 +15,14 @@ class SigninPage extends StatefulWidget {
 
 class _SigninPageState extends State<SigninPage> {
   late WebViewController _controller;
+  late User _user;
+
+  Future<void> _signin(String url) async {
+    String code = url.split('https://qiita.com/settings/applications?code=')[1];
+    final AccessToken accessToken =
+        await QiitaRepository.createAccessToken(code);
+    _user = await QiitaRepository.fetchUser(accessToken.token);
+  }
 
   @override
   void initState() {
@@ -25,17 +34,14 @@ class _SigninPageState extends State<SigninPage> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (String url) async {
-            print(url);
             final bool hasCode =
                 url.contains('https://qiita.com/settings/applications?code=');
             if (hasCode) {
-              String code =
-                  url.split('https://qiita.com/settings/applications?code=')[1];
-              final AccessToken accessToken =
-                  await QiitaRepository.createAccessToken(code);
-              final User user =
-                  await QiitaRepository.fetchUser(accessToken.token);
-              print(user.id);
+              await _signin(url);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserPage(user: _user)),
+              );
             }
           },
         ),
