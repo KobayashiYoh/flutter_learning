@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:oauth/model/access_token.dart';
+import 'package:oauth/model/user.dart';
 import 'package:oauth/repository/qiita_repository.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -32,6 +33,9 @@ class _SigninPageState extends State<SigninPage> {
                   url.split('https://qiita.com/settings/applications?code=')[1];
               final AccessToken accessToken =
                   await QiitaRepository.createAccessToken(code);
+              final User user =
+                  await QiitaRepository.fetchUser(accessToken.token);
+              print(user.id);
             }
           },
         ),
