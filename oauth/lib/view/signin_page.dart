@@ -17,9 +17,8 @@ class _SigninPageState extends State<SigninPage> {
   late User _user;
 
   Future<void> _signin(String url) async {
-    String code = url
-        .split('${GitHubRepository.baseUrl}/settings/applications/new?code=')
-        .last;
+    String code =
+        url.split('https://github.com/settings/applications/new?code=').last;
     final String accessToken = await GitHubRepository.createAccessToken(code);
     _user = await GitHubRepository.fetchUser(accessToken);
   }
@@ -34,8 +33,8 @@ class _SigninPageState extends State<SigninPage> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (String url) async {
-            final bool hasCode = url.contains(
-                '${GitHubRepository.baseUrl}/settings/applications/new?code=');
+            final bool hasCode = url
+                .contains('https://github.com/settings/applications/new?code=');
             if (hasCode) {
               await _signin(url);
               Navigator.push(
@@ -48,7 +47,7 @@ class _SigninPageState extends State<SigninPage> {
       )
       ..loadRequest(
         Uri.parse(
-          '${GitHubRepository.baseUrl}/login/oauth/authorize?client_id=$clientId',
+          'https://github.com/login/oauth/authorize?client_id=$clientId',
         ),
       );
   }
