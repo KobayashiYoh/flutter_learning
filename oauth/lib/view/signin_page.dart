@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:oauth/model/access_token.dart';
 import 'package:oauth/model/user.dart';
-import 'package:oauth/repository/qiita_repository.dart';
+import 'package:oauth/repository/git_hub_repository.dart';
 import 'package:oauth/view/user_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -18,10 +17,10 @@ class _SigninPageState extends State<SigninPage> {
   late User _user;
 
   Future<void> _signin(String url) async {
-    String code = url.split('https://qiita.com/settings/applications?code=')[1];
-    final AccessToken accessToken =
-        await QiitaRepository.createAccessToken(code);
-    _user = await QiitaRepository.fetchUser(accessToken.token);
+    String code =
+        url.split('https://github.com/settings/applications/new?code=').last;
+    final String accessToken = await GitHubRepository.createAccessToken(code);
+    _user = await GitHubRepository.fetchUser(accessToken);
   }
 
   @override
@@ -34,8 +33,8 @@ class _SigninPageState extends State<SigninPage> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (String url) async {
-            final bool hasCode =
-                url.contains('https://qiita.com/settings/applications?code=');
+            final bool hasCode = url
+                .contains('https://github.com/settings/applications/new?code=');
             if (hasCode) {
               await _signin(url);
               Navigator.push(
@@ -48,7 +47,7 @@ class _SigninPageState extends State<SigninPage> {
       )
       ..loadRequest(
         Uri.parse(
-          'https://qiita.com/api/v2/oauth/authorize?client_id=$clientId&scope=read_qiita',
+          'https://github.com/login/oauth/authorize?client_id=$clientId',
         ),
       );
   }
