@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:oauth/model/user.dart';
 import 'package:oauth/repository/git_hub_repository.dart';
+import 'package:oauth/view/user_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class SigninPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _SigninPageState extends State<SigninPage> {
         .split('${GitHubRepository.baseUrl}/settings/applications/new?code=')
         .last;
     final String accessToken = await GitHubRepository.createAccessToken(code);
-    // _user = await GitHubRepository.fetchUser(accessToken.accessToken);
+    _user = await GitHubRepository.fetchUser(accessToken);
   }
 
   @override
@@ -37,10 +38,10 @@ class _SigninPageState extends State<SigninPage> {
                 '${GitHubRepository.baseUrl}/settings/applications/new?code=');
             if (hasCode) {
               await _signin(url);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => UserPage(user: _user)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserPage(user: _user)),
+              );
             }
           },
         ),

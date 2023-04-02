@@ -14,11 +14,11 @@ class UserPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.network(
-                user.profileImageUrl,
+                user.avatarUrl,
                 width: 120.0,
               ),
               Text(
-                user.id,
+                user.login,
                 style: const TextStyle(fontSize: 24.0),
               ),
             ],

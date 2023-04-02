@@ -37,15 +37,13 @@ class GitHubRepository {
 
   static Future<User> fetchUser(String accessToken) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/api/v2/authenticated_user'),
+      Uri.parse('https://api.github.com/user'),
       headers: <String, String>{
         HttpHeaders.authorizationHeader: 'Bearer $accessToken',
-        'Content-Type': 'application/json',
       },
     );
-    print(response.request);
     if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body));
+      return User.fromJson(json.decode(response.body));
     } else {
       throw Exception(
         'User request failed with status: ${response.statusCode}',
