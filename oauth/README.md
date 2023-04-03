@@ -1,16 +1,11 @@
 # oauth
 
-A new Flutter project.
+GitHub APIのOAuth認証を用いたアクセストークン発行&認証ユーザー取得のサンプルコード
 
-## Getting Started
+## クライアントIDとクライアントシークレット
+認証に必要なクライアントIDとクライアントシークレットを記述した[envファイル](https://drive.google.com/drive/u/1/folders/1n5rp8wfheNLJG9gvoiThakQXazb9ApDc)をPlayGroundモバイルコースのGoogleドライブからダウンロードし、assetsディレクトリ直下に配置してください。<br>
+<img width="249" alt="スクリーンショット 2023-04-03 22 41 21" src="https://user-images.githubusercontent.com/82624334/229527359-e782e71d-7a65-4fb8-bcb9-b5afb99de042.png">
 
-This project is a starting point for a Flutter application.
+## UI
+<img src="https://user-images.githubusercontent.com/82624334/229346970-ccd3c47b-c89e-42ae-a451-8399271e8dab.png" width="300"> <img src="https://user-images.githubusercontent.com/82624334/229346821-7b621266-23ca-4881-bf39-229ca1dd45e7.png" width="300">
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
