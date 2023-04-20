@@ -10,6 +10,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:widget_test/main.dart';
 
 void main() {
+  testWidgets('MyHomeWidget has a title and message', (tester) async {
+    await tester.pumpWidget(const MyApp());
+    final titleFinder = find.text('Flutter Demo Home Page');
+    final messageFinder =
+        find.text('You have pushed the button this many times:');
+
+    expect(titleFinder, findsOneWidget);
+    expect(messageFinder, findsOneWidget);
+  });
+
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
