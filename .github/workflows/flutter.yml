@@ -3,29 +3,23 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Flutter
-
+name: Check and test the source code
 on:
-  push:
-    branches: [ "feature/github-actions" ]
-  pull_request:
-    branches: [ "feature/github-actions" ]
-
+ pull_request:
+  branches:
+   - main
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v1.6.1
-      with:
-        flutter-version: '2.8.0'
-
-    - name: Get Dependencies
-      run: flutter pub get
-
-    - name: Run Tests
-      run: flutter test
+ test:
+  name: Check the source code
+  runs-on: ubuntu-latest
+  steps:
+   - uses: actions/checkout@v3
+   - uses: subosito/flutter-action@v2.3.0
+     with:
+      flutter-version: '3.3.10'
+   - name: Install packages
+     run: flutter pub get
+   - name: Linter
+     run: flutter analyze
+   - name: Test
+     run: flutter test
