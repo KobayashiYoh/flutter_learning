@@ -19,7 +19,10 @@ jobs:
       flutter-version: '3.3.10'
    - name: Install packages
      run: flutter pub get
+     working-directory: ./github_actions
    - name: Linter
      run: flutter analyze
+     working-directory: ./github_actions
    - name: Test
      run: flutter test
+     working-directory: ./github_actions
