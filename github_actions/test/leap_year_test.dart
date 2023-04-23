@@ -40,7 +40,7 @@ void main() {
       expect(LeapYear().isLeapYear(2099), false);
     });
     test('value in 2100', () {
-      expect(LeapYear().isLeapYear(2100), true);
+      expect(LeapYear().isLeapYear(2100), false);
     });
     test('value in 2101', () {
       expect(LeapYear().isLeapYear(2101), false);
