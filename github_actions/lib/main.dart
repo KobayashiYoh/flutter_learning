@@ -4,7 +4,6 @@ void main() {
   print('Hello, world!');
   print('taipoでタイポ');
   final unnecessary = 0;
-  error
   runApp(const MyApp());
 }
 
