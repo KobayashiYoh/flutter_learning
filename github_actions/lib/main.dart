@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  print('Hello, world!');
-  print('taipoでタイポ');
-  final unnecessary = 0;
   runApp(const MyApp());
 }
 
