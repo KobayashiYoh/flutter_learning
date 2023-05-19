@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/sqflite_practice/ios/.symlinks/plugins/sqflite/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/sqflite_practice/ios/.symlinks/plugins/sqflite/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/sqflite_practice/ios/.symlinks/plugins/sqflite/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_local_notifications_example/ios/.symlinks/plugins/flutter_local_notifications/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_local_notifications_example/ios/.symlinks/plugins/flutter_local_notifications/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_local_notifications_example/ios/.symlinks/plugins/flutter_local_notifications/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_local_notifications_example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_local_notifications_example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_local_notifications_example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/sqflite_practice/ios/.symlinks/plugins/sqflite/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/sqflite_practice/ios/.symlinks/plugins/sqflite/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/sqflite_practice/ios/.symlinks/plugins/sqflite/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_local_notifications_example/ios/.symlinks/plugins/flutter_local_notifications/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_local_notifications_example/ios/.symlinks/plugins/flutter_local_notifications/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_local_notifications_example/ios/.symlinks/plugins/flutter_local_notifications/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/practice_stream/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/practice_stream/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/practice_stream/build" />
+      <excludeFolder url="file://$MODULE_DIR$/vibration_practice/ios/.symlinks/plugins/vibration/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/vibration_practice/ios/.symlinks/plugins/vibration/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/vibration_practice/ios/.symlinks/plugins/vibration/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/form/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/form/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/form/build" />
+      <excludeFolder url="file://$MODULE_DIR$/sqflite_practice/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/sqflite_practice/build" />
+      <excludeFolder url="file://$MODULE_DIR$/sqflite_practice/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/calendar/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/calendar/build" />
+      <excludeFolder url="file://$MODULE_DIR$/calendar/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unit_test_learning/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unit_test_learning/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unit_test_learning/build" />
+      <excludeFolder url="file://$MODULE_DIR$/vibration_practice/ios/.symlinks/plugins/vibration/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/vibration_practice/ios/.symlinks/plugins/vibration/build" />
+      <excludeFolder url="file://$MODULE_DIR$/vibration_practice/ios/.symlinks/plugins/vibration/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/vibration_practice/build" />
+      <excludeFolder url="file://$MODULE_DIR$/vibration_practice/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/vibration_practice/.dart_tool" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
