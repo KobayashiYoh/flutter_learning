@@ -38,22 +38,36 @@ extension SexExtensions on Sex {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  Sex dropdownValue = Sex.none;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: DropdownButton<Sex>(
-          items: [
-            for (var sex in Sex.values)
-              DropdownMenuItem(
-                value: sex,
-                child: Text(sex.text),
-              ),
-          ],
-          onChanged: (Sex? value) {},
+        child: Center(
+          child: DropdownButton<Sex>(
+            value: dropdownValue,
+            onChanged: (Sex? value) {
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            items: [
+              for (var sex in Sex.values)
+                DropdownMenuItem(
+                  value: sex,
+                  child: Text(sex.text),
+                ),
+            ],
+          ),
         ),
       ),
     );
