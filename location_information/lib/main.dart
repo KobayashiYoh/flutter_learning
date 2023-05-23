@@ -31,9 +31,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
-  late LocationData _locationData;
+  LocationData _locationData = LocationData.fromMap({});
 
-  void _fetchLocation() async {
+  Future<void> _fetchLocation() async {
     Location location = Location();
 
     _serviceEnabled = await location.serviceEnabled();
@@ -52,14 +52,17 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-    _locationData = await location.getLocation();
+    final locationData = await location.getLocation();
+    setState(() {
+      _locationData = locationData;
+    });
   }
 
   @override
   void initState() {
     super.initState();
     Future(() async {
-      _fetchLocation();
+      await _fetchLocation();
     });
   }
 
@@ -67,7 +70,20 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(_locationData.toString()),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('緯度: ${_locationData.latitude}'),
+            Text('経度: ${_locationData.longitude}'),
+            Text('推定水平精度: ${_locationData.accuracy}（m）'),
+            Text('標高: ${_locationData.altitude}（m）'),
+            Text('速度: ${_locationData.speed}（m/s）'),
+            Text('速度の推定精度: ${_locationData.speedAccuracy}（m/s）'),
+            Text('デバイスの水平方向の移動方向: ${_locationData.heading}（°）'),
+            Text('タイムスタンプ: ${_locationData.time}'),
+            Text('isMock: ${_locationData.isMock}'),
+          ],
+        ),
       ),
     );
   }
