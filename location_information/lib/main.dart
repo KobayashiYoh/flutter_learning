@@ -33,8 +33,19 @@ class _MyHomePageState extends State<MyHomePage> {
   late PermissionStatus _permissionGranted;
   LocationData _locationData = LocationData.fromMap({});
 
-  Future<void> _fetchLocation() async {
+  void _updateLocation() async {
     Location location = Location();
+    final locationData = await location.getLocation();
+    setState(() {
+      _locationData = locationData;
+    });
+  }
+
+  Future<void> _initLocation() async {
+    Location location = Location();
+    location.onLocationChanged.listen((LocationData currentLocation) {
+      _updateLocation();
+    });
 
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -52,17 +63,14 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-    final locationData = await location.getLocation();
-    setState(() {
-      _locationData = locationData;
-    });
+    _updateLocation();
   }
 
   @override
   void initState() {
     super.initState();
     Future(() async {
-      await _fetchLocation();
+      await _initLocation();
     });
   }
 
@@ -75,12 +83,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Text('緯度: ${_locationData.latitude}'),
             Text('経度: ${_locationData.longitude}'),
-            Text('推定水平精度: ${_locationData.accuracy}（m）'),
             Text('標高: ${_locationData.altitude}（m）'),
             Text('速度: ${_locationData.speed}（m/s）'),
-            Text('速度の推定精度: ${_locationData.speedAccuracy}（m/s）'),
             Text('デバイスの水平方向の移動方向: ${_locationData.heading}（°）'),
-            Text('タイムスタンプ: ${_locationData.time}'),
             Text('isMock: ${_locationData.isMock}'),
           ],
         ),
