@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/android/integration_test_android.iml" filepath="$PROJECT_DIR$/android/integration_test_android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/integration_test_learning.iml" filepath="$PROJECT_DIR$/integration_test_learning.iml" />
-    </modules>
-  </component>
-</project>
