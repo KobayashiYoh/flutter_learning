@@ -1,16 +1,9 @@
-# project_created_by_fvm
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 初回導入
+### Android Studioを使用している場合
+https://zenn.dev/altiveinc/articles/flutter-version-management#android-studio-%E3%81%AE%E8%A8%AD%E5%AE%9A%E4%BE%8B
+### VS Codeを使用している場合
+https://zenn.dev/altiveinc/articles/flutter-version-management#vs-code
+### 共通
+```
+fvm install
+```
