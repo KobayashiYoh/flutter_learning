@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Text('経度: ${_locationData.longitude?.toStringAsFixed(4)}'),
             Text('標高: ${_locationData.altitude?.toStringAsFixed(2)}（m）'),
             Text(
-              '速度: ${_locationData.kilometerPerHour.toStringAsFixed(2)}（m/s）',
+              '速度: ${_locationData.kilometerPerHour.toStringAsFixed(2)}（km/h）',
             ),
             Text(
               'デバイスの水平方向の移動方向: ${_locationData.heading?.toStringAsFixed(2)}（°）',
