@@ -21,6 +21,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
+extension LocationDataExtensions on LocationData {
+  double get kilometerPerHour {
+    final double meterPerSecond = speed ?? 0.0;
+    return meterPerSecond * 3600 / 1000;
+  }
+}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
@@ -77,15 +84,22 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('位置情報取得アプリ'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('緯度: ${_locationData.latitude}'),
-            Text('経度: ${_locationData.longitude}'),
-            Text('標高: ${_locationData.altitude}（m）'),
-            Text('速度: ${_locationData.speed}（m/s）'),
-            Text('デバイスの水平方向の移動方向: ${_locationData.heading}（°）'),
+            Text('緯度: ${_locationData.latitude?.toStringAsFixed(4)}'),
+            Text('経度: ${_locationData.longitude?.toStringAsFixed(4)}'),
+            Text('標高: ${_locationData.altitude?.toStringAsFixed(2)}（m）'),
+            Text(
+              '速度: ${_locationData.kilometerPerHour.toStringAsFixed(2)}（m/s）',
+            ),
+            Text(
+              'デバイスの水平方向の移動方向: ${_locationData.heading?.toStringAsFixed(2)}（°）',
+            ),
             Text('isMock: ${_locationData.isMock}'),
           ],
         ),
