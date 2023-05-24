@@ -31,6 +31,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+pubspec.lock
 
 # Symbolication related
 app.*.symbols
@@ -42,3 +43,16 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# iOS
+/ios/Runner.xcodeproj/project.pbxproj
+
+# Firebase
+/android/app/google-services.json
+/ios/Runner/GoogleService-Info.plist
+/ios/firebase_app_id_file.json
+.ios/Pods/
+.ios/Podfile.lock
+.ios/.symlinks/
+.ios/Flutter/
+lib/firebase_options.dart
