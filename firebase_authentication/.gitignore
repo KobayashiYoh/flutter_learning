@@ -46,13 +46,11 @@ app.*.map.json
 
 # iOS
 /ios/Runner.xcodeproj/project.pbxproj
+/ios/Runner.xcworkspace/contents.xcworkspacedata
 
 # Firebase
 /android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist
 /ios/firebase_app_id_file.json
-.ios/Pods/
-.ios/Podfile.lock
-.ios/.symlinks/
-.ios/Flutter/
+/ios/Podfile.lock
 lib/firebase_options.dart
