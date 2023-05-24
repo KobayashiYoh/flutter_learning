@@ -63,6 +63,7 @@ class _SigninPageState extends State<SigninPage> {
               ),
               TextFormField(
                 decoration: const InputDecoration(hintText: 'パスワード'),
+                obscureText: true,
                 onChanged: _onChangedPassword,
               ),
               const SizedBox(height: 40.0),
