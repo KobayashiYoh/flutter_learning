@@ -1,14 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class SigninPage extends StatefulWidget {
-  const SigninPage({Key? key}) : super(key: key);
+class SignInPage extends StatefulWidget {
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
-  State<SigninPage> createState() => _SigninPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SigninPageState extends State<SigninPage> {
+class _SignInPageState extends State<SignInPage> {
   String _inputEmailAddress = '';
   String _inputPassword = '';
   String _resultMessage = '';
@@ -63,6 +66,26 @@ class _SigninPageState extends State<SigninPage> {
     }
   }
 
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    final UserCredential result =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,6 +126,11 @@ class _SigninPageState extends State<SigninPage> {
                     ),
                   ),
                 ],
+              ),
+              // yokobayashi2001@gmail.com
+              SignInButton(
+                Buttons.Google,
+                onPressed: signInWithGoogle,
               ),
             ],
           ),

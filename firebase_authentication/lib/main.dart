@@ -1,5 +1,5 @@
 import 'package:firebase_authentication/firebase_options.dart';
-import 'package:firebase_authentication/signin_page.dart';
+import 'package:firebase_authentication/sign_in_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SigninPage(),
+      home: const SignInPage(),
     );
   }
 }
