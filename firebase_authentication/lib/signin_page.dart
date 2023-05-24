@@ -25,7 +25,26 @@ class _SigninPageState extends State<SigninPage> {
     });
   }
 
-  void _onPressedSubmitButton() async {
+  void _onPressedSigninButton() async {
+    try {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      final UserCredential result = await auth.signInWithEmailAndPassword(
+        email: _inputEmailAddress,
+        password: _inputPassword,
+      );
+      final User user = result.user!;
+      setState(() {
+        _resultMessage = 'ログイン完了!\nようこそ、${user.email}';
+      });
+    } catch (e) {
+      setState(() {
+        _resultMessage = 'ログイン失敗';
+      });
+      throw Exception(e);
+    }
+  }
+
+  void _onPressedSignupButton() async {
     try {
       final FirebaseAuth auth = FirebaseAuth.instance;
       final UserCredential result = await auth.createUserWithEmailAndPassword(
@@ -48,7 +67,7 @@ class _SigninPageState extends State<SigninPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign up'),
+        title: const Text('Authentication'),
       ),
       body: SafeArea(
         child: Container(
@@ -66,10 +85,24 @@ class _SigninPageState extends State<SigninPage> {
                 obscureText: true,
                 onChanged: _onChangedPassword,
               ),
-              const SizedBox(height: 40.0),
-              ElevatedButton(
-                onPressed: _onPressedSubmitButton,
-                child: const Text('新規登録'),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _onPressedSigninButton,
+                      child: const Text('ログイン'),
+                    ),
+                  ),
+                  const SizedBox(width: 16.0),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _onPressedSignupButton,
+                      child: const Text('新規登録'),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
