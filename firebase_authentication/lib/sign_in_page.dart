@@ -151,9 +151,10 @@ class _SignInPageState extends State<SignInPage> {
                 Buttons.Google,
                 onPressed: signInWithGoogle,
               ),
-              SignInWithAppleButton(
-                onPressed: signInWithApple,
-              ),
+              if (Theme.of(context).platform == TargetPlatform.iOS)
+                SignInWithAppleButton(
+                  onPressed: signInWithApple,
+                ),
             ],
           ),
         ),
