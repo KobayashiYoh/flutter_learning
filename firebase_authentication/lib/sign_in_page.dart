@@ -147,7 +147,6 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ],
               ),
-              // yokobayashi2001@gmail.com
               SignInButton(
                 Buttons.Google,
                 onPressed: signInWithGoogle,
