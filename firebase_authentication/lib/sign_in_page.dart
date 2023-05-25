@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -86,6 +87,30 @@ class _SignInPageState extends State<SignInPage> {
     return result;
   }
 
+  Future<UserCredential> signInWithApple() async {
+    print('AppSignInを実行');
+
+    final rawNonce = generateNonce();
+
+    // 現在サインインしているAppleアカウントのクレデンシャルを要求する。
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+    print(appleCredential);
+    // Apple から返されたクレデンシャルから `OAuthCredential` を作成します。
+    final oauthCredential = OAuthProvider("apple.com").credential(
+      idToken: appleCredential.identityToken,
+      rawNonce: rawNonce,
+    );
+    print(appleCredential);
+    // Firebaseでユーザーにサインインします。もし、先ほど生成したnonceが
+    // が `appleCredential.identityToken` の nonce と一致しない場合、サインインに失敗します。
+    return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,6 +156,9 @@ class _SignInPageState extends State<SignInPage> {
               SignInButton(
                 Buttons.Google,
                 onPressed: signInWithGoogle,
+              ),
+              SignInWithAppleButton(
+                onPressed: signInWithApple,
               ),
             ],
           ),
