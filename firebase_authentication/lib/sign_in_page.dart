@@ -88,10 +88,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Future<UserCredential> signInWithApple() async {
-    print('AppSignInを実行');
-
     final rawNonce = generateNonce();
-
     // 現在サインインしているAppleアカウントのクレデンシャルを要求する。
     final appleCredential = await SignInWithApple.getAppleIDCredential(
       scopes: [
@@ -99,13 +96,11 @@ class _SignInPageState extends State<SignInPage> {
         AppleIDAuthorizationScopes.fullName,
       ],
     );
-    print(appleCredential);
     // Apple から返されたクレデンシャルから `OAuthCredential` を作成します。
     final oauthCredential = OAuthProvider("apple.com").credential(
       idToken: appleCredential.identityToken,
       rawNonce: rawNonce,
     );
-    print(appleCredential);
     // Firebaseでユーザーにサインインします。もし、先ほど生成したnonceが
     // が `appleCredential.identityToken` の nonce と一致しない場合、サインインに失敗します。
     return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
