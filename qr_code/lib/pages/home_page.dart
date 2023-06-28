@@ -11,6 +11,9 @@ class HomePage extends StatelessWidget {
         child: Center(
           child: QrImage(
             data: 'https://pub.dev/packages/qr_flutter',
+            embeddedImage: const AssetImage(
+              'assets/images/flutter_logo.png',
+            ),
           ),
         ),
       ),
