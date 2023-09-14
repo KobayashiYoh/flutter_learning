@@ -19,8 +19,20 @@ void main() {
       expect(LeapYearUtil.isLeapYear(2004), true);
     });
 
-    test('2100年は閏年である', () {
+    test('2100年は平年である', () {
       expect(LeapYearUtil.isLeapYear(2100), false);
+    });
+
+    test('2200年は平年である', () {
+      expect(LeapYearUtil.isLeapYear(2200), false);
+    });
+
+    test('2400年は閏年である', () {
+      expect(LeapYearUtil.isLeapYear(2400), true);
+    });
+
+    test('2500年は平年である', () {
+      expect(LeapYearUtil.isLeapYear(2500), false);
     });
   });
 }
