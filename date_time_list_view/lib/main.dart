@@ -28,7 +28,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<DateTime> _dateTimes = [
+  List<DateTime> _dateTimes = [];
+
+  final List<DateTime> _initialFetchedDateTimes = [
     DateTime(2023, 1, 1),
     DateTime(2023, 1, 1),
     DateTime(2023, 1, 1),
@@ -36,30 +38,16 @@ class _HomePageState extends State<HomePage> {
     DateTime(2023, 1, 2),
     DateTime(2023, 1, 2),
     DateTime(2023, 1, 2),
-    DateTime(2023, 1, 4),
-    DateTime(2023, 1, 4),
-    DateTime(2023, 1, 4),
-    DateTime(2023, 1, 4),
+    DateTime(2023, 1, 9),
+    DateTime(2023, 1, 9),
+    DateTime(2023, 1, 9),
+    DateTime(2023, 1, 9),
   ];
-
-  final List<List<DateTime>> _groupedDateTimes = [];
-
-  void _countDays() {
-    // リストを日付単位にグループ化
-    List<DateTime> currentGroup = [];
-    for (int i = 0; i < _dateTimes.length; i++) {
-      currentGroup.add(_dateTimes[i]);
-      if (i == _dateTimes.length - 1 || _dateTimes[i] != _dateTimes[i + 1]) {
-        _groupedDateTimes.add(currentGroup);
-        currentGroup = [];
-      }
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    _countDays();
+    _dateTimes = _initialFetchedDateTimes;
   }
 
   @override
@@ -68,8 +56,9 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: _dateTimes.length,
         itemBuilder: (context, index) {
-          if ((index > 0 && _dateTimes[index] != _dateTimes[index - 1]) ||
-              index == 0) {
+          final shouldShowTitle = index == 0 ||
+              (index > 0 && _dateTimes[index] != _dateTimes[index - 1]);
+          if (shouldShowTitle) {
             // 日付が変わった場合、タイトルを表示
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
