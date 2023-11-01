@@ -38,11 +38,28 @@ class _HomePageState extends State<HomePage> {
     DateTime(2023, 1, 2),
     DateTime(2023, 1, 2),
     DateTime(2023, 1, 2),
-    DateTime(2023, 1, 9),
-    DateTime(2023, 1, 9),
-    DateTime(2023, 1, 9),
+    DateTime(2023, 1, 3),
+    DateTime(2023, 1, 3),
+    DateTime(2023, 1, 4),
     DateTime(2023, 1, 9),
   ];
+
+  final List<DateTime> _additionalFetchedDateTimes = [
+    DateTime(2023, 1, 9),
+    DateTime(2023, 1, 17),
+    DateTime(2023, 1, 17),
+    DateTime(2023, 1, 17),
+    DateTime(2023, 1, 24),
+    DateTime(2023, 1, 24),
+    DateTime(2023, 1, 26),
+    DateTime(2023, 1, 26),
+  ];
+
+  void _addDateTimes() {
+    setState(() {
+      _dateTimes.addAll(_additionalFetchedDateTimes);
+    });
+  }
 
   @override
   void initState() {
@@ -75,6 +92,10 @@ class _HomePageState extends State<HomePage> {
             return ListItem(dateTime: _dateTimes[index], index: index);
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addDateTimes,
+        child: const Icon(Icons.add),
       ),
     );
   }
