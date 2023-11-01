@@ -28,7 +28,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // APIで最初にinitStateで取得する擬似データ
   final List<DateTime> _dateTimes = [
     DateTime(2023, 1, 1),
     DateTime(2023, 1, 1),
@@ -40,71 +39,33 @@ class _HomePageState extends State<HomePage> {
     DateTime(2023, 1, 4),
     DateTime(2023, 1, 4),
     DateTime(2023, 1, 4),
-    DateTime(2023, 1, 9),
-    DateTime(2023, 1, 9),
+    DateTime(2023, 1, 4),
   ];
 
-  // APIで追加取得する模擬データ
-  final List<DateTime> _additionalDateTimes = [
-    DateTime(2023, 1, 9),
-    DateTime(2023, 1, 9),
-    DateTime(2023, 1, 17),
-    DateTime(2023, 1, 17),
-    DateTime(2023, 1, 17),
-    DateTime(2023, 1, 24),
-    DateTime(2023, 1, 24),
-    DateTime(2023, 1, 24),
-    DateTime(2023, 1, 26),
-    DateTime(2023, 1, 26),
-    DateTime(2023, 1, 26),
-  ];
+  final List<List<DateTime>> _groupedDateTimes = [];
 
-  late ScrollController _scrollController;
-  bool _isLoading = false;
-  List<List<DateTime>> _groupedDateTimes = [];
-
-  List<List<DateTime>> _groupSameDate() {
-    List<List<DateTime>> groupedDateTimes = [];
+  void _countDays() {
     // リストを日付単位にグループ化
     List<DateTime> currentGroup = [];
     for (int i = 0; i < _dateTimes.length; i++) {
       currentGroup.add(_dateTimes[i]);
       if (i == _dateTimes.length - 1 || _dateTimes[i] != _dateTimes[i + 1]) {
-        groupedDateTimes.add(currentGroup);
+        _groupedDateTimes.add(currentGroup);
         currentGroup = [];
       }
-    }
-    return groupedDateTimes;
-  }
-
-  Future<void> _scrollControllerListener() async {
-    if (_scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent * 0.95 &&
-        !_isLoading) {
-      setState(() {
-        _isLoading = true;
-      });
-      // TODO: データを追加読み込みする。_additionalDateTimesを使用する。
-      print('add');
-      setState(() {
-        _isLoading = false;
-      });
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _groupedDateTimes = _groupSameDate();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_scrollControllerListener);
+    _countDays();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        controller: _scrollController,
         itemCount: _dateTimes.length,
         itemBuilder: (context, index) {
           if ((index > 0 && _dateTimes[index] != _dateTimes[index - 1]) ||
