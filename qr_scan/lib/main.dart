@@ -39,6 +39,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  bool _isPause = false;
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -105,33 +106,29 @@ class _QRViewExampleState extends State<QRViewExample> {
                                 }
                               },
                             )),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.pauseCamera();
-                          },
-                          child: const Text('pause',
-                              style: TextStyle(fontSize: 20)),
-                        ),
                       ),
                       Container(
                         margin: const EdgeInsets.all(8),
                         child: ElevatedButton(
                           onPressed: () async {
-                            await controller?.resumeCamera();
+                            if (_isPause) {
+                              await controller?.resumeCamera();
+                              setState(() {
+                                _isPause = false;
+                              });
+                            } else {
+                              await controller?.pauseCamera();
+                              setState(() {
+                                _isPause = true;
+                              });
+                            }
                           },
-                          child: const Text('resume',
-                              style: TextStyle(fontSize: 20)),
+                          child: Text(
+                            _isPause ? 'resume' : 'pause',
+                            style: const TextStyle(fontSize: 20),
+                          ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ],
