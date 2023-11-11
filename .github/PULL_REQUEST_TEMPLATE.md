@@ -2,7 +2,7 @@
 
 
 ## UI
-<img src="http://screenshot.png" width="300">
+<img src="" width="300">
 
 
 ## 動作確認
