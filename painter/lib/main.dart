@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,42 +20,27 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Sky extends CustomPainter {
+class CameraPreviewPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final Rect rect = Offset.zero & size;
-    const RadialGradient gradient = RadialGradient(
-      center: Alignment(0.7, -0.6),
-      radius: 0.2,
-      colors: <Color>[Color(0xFFFFFF00), Color(0xFF0099FF)],
-      stops: <double>[0.4, 1.0],
+    final Rect deviceRect = Offset.zero & size;
+    final RRect centerRRect = RRect.fromRectAndRadius(
+      Rect.fromCenter(
+        center: Offset(size.width / 2, size.height / 2),
+        width: 200,
+        height: 80.0,
+      ),
+      const Radius.circular(8.0),
     );
-    canvas.drawRect(
-      rect,
-      Paint()..shader = gradient.createShader(rect),
+    final paint = Paint()..color = const Color(0xCC000000);
+    canvas.drawPath(
+      Path.combine(
+        PathOperation.difference,
+        Path()..addRect(deviceRect),
+        Path()..addRRect(centerRRect),
+      ),
+      paint,
     );
-  }
-
-  @override
-  SemanticsBuilderCallback get semanticsBuilder {
-    return (Size size) {
-      // Annotate a rectangle containing the picture of the sun
-      // with the label "Sun". When text to speech feature is enabled on the
-      // device, a user will be able to locate the sun on this picture by
-      // touch.
-      Rect rect = Offset.zero & size;
-      final double width = size.shortestSide * 0.4;
-      rect = const Alignment(0.8, -0.9).inscribe(Size(width, width), rect);
-      return <CustomPainterSemantics>[
-        CustomPainterSemantics(
-          rect: rect,
-          properties: const SemanticsProperties(
-            label: 'Sun',
-            textDirection: TextDirection.ltr,
-          ),
-        ),
-      ];
-    };
   }
 
   // Since this Sky painter has no fields, it always paints
@@ -65,9 +49,9 @@ class Sky extends CustomPainter {
   // from the constructor) then we would return true if any
   // of them differed from the same fields on the oldDelegate.
   @override
-  bool shouldRepaint(Sky oldDelegate) => false;
+  bool shouldRepaint(CameraPreviewPainter oldDelegate) => false;
   @override
-  bool shouldRebuildSemantics(Sky oldDelegate) => false;
+  bool shouldRebuildSemantics(CameraPreviewPainter oldDelegate) => false;
 }
 
 class MyHomePage extends StatelessWidget {
@@ -76,13 +60,18 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: CustomPaint(
-            painter: Sky(),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(
+                'https://cdn.pixabay.com/photo/2019/06/25/21/53/forest-4299156_1280.jpg'),
           ),
+        ),
+        child: CustomPaint(
+          painter: CameraPreviewPainter(),
         ),
       ),
     );
