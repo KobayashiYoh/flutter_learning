@@ -51,6 +51,74 @@ class HyperlinkText extends StatelessWidget {
   final TextStyle normalStyle = const TextStyle(color: Colors.black);
   final TextStyle hyperlinkStyle = const TextStyle(color: Colors.blue);
 
+  List<Match> allMatchList() {
+    final urlPattern = RegExp(r" https?://[\w!?/+\-_~;.,*&@#$%()'[\]]+");
+    final mentionPattern = RegExp(r' @(\w+)');
+    final hashtagPattern = RegExp(r'#[0-9a-zA-Zぁ-んァ-ヶｱ-ﾝﾞﾟ一-龠]+');
+    final urlMatches = urlPattern.allMatches(text);
+    final mentionMatches = mentionPattern.allMatches(text);
+    final hashtagMatches = hashtagPattern.allMatches(text);
+
+    final List<Match> allMatches = [];
+    allMatches.addAll(urlMatches);
+    allMatches.addAll(mentionMatches);
+    allMatches.addAll(hashtagMatches);
+    allMatches.sort((a, b) => a.start.compareTo(b.start));
+
+    return allMatches;
+  }
+
+  List<TextSpan> textSpan(List<Match> allMatches) {
+    final parts = <TextSpan>[];
+    int currentPosition = 0;
+
+    final urlPattern = RegExp(r" https?://[\w!?/+\-_~;.,*&@#$%()'[\]]+");
+    final mentionPattern = RegExp(r' @(\w+)');
+    final hashtagPattern = RegExp(r'#[0-9a-zA-Zぁ-んァ-ヶｱ-ﾝﾞﾟ一-龠]+');
+
+    for (var match in allMatches) {
+      if (currentPosition < match.start) {
+        final textPart = text.substring(currentPosition, match.start);
+        parts.add(TextSpan(text: textPart, style: normalStyle));
+      }
+
+      final matchedText = text.substring(match.start, match.end);
+      if (urlPattern.hasMatch(matchedText)) {
+        final url = matchedText.replaceAll(' ', '');
+        parts.add(
+          TextSpan(
+            text: matchedText,
+            style: hyperlinkStyle,
+            recognizer: TapGestureRecognizer()..onTap = () => onTapUrl(url),
+          ),
+        );
+      } else if (mentionPattern.hasMatch(matchedText)) {
+        parts.add(
+          TextSpan(
+            text: matchedText,
+            style: hyperlinkStyle,
+            recognizer: TapGestureRecognizer()..onTap = onTapMention,
+          ),
+        );
+      } else if (hashtagPattern.hasMatch(matchedText)) {
+        parts.add(
+          TextSpan(
+            text: matchedText,
+            style: hyperlinkStyle,
+            recognizer: TapGestureRecognizer()..onTap = onTapHashtag,
+          ),
+        );
+      }
+
+      currentPosition = match.end;
+    }
+    if (currentPosition < text.length) {
+      final remainingText = text.substring(currentPosition);
+      parts.add(TextSpan(text: remainingText, style: normalStyle));
+    }
+    return parts;
+  }
+
   void onTapMention() {
     debugPrint('On tap mention');
   }
@@ -65,65 +133,9 @@ class HyperlinkText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final urlPattern = RegExp(r" https?://[\w!?/+\-_~;.,*&@#$%()'[\]]+");
-    final mentionPattern = RegExp(r' @(\w+)');
-    final hashtagPattern = RegExp(r'#[0-9a-zA-Zぁ-んァ-ヶｱ-ﾝﾞﾟ一-龠]+');
-    final urlMatches = urlPattern.allMatches(text);
-    final mentionMatches = mentionPattern.allMatches(text);
-    final hashtagMatches = hashtagPattern.allMatches(text);
-
-    final List<Match> allMatches = [];
-    allMatches.addAll(urlMatches);
-    allMatches.addAll(mentionMatches);
-    allMatches.addAll(hashtagMatches);
-    allMatches.sort((a, b) => a.start.compareTo(b.start));
-
+    final List<Match> allMatches = allMatchList();
+    final parts = textSpan(allMatches);
     if (allMatches.isNotEmpty) {
-      final parts = <TextSpan>[];
-      int currentPosition = 0;
-
-      for (var match in allMatches) {
-        if (currentPosition < match.start) {
-          final textPart = text.substring(currentPosition, match.start);
-          parts.add(TextSpan(text: textPart, style: normalStyle));
-        }
-
-        final matchedText = text.substring(match.start, match.end);
-        if (urlPattern.hasMatch(matchedText)) {
-          final url = matchedText.replaceAll(' ', '');
-          parts.add(
-            TextSpan(
-              text: matchedText,
-              style: hyperlinkStyle,
-              recognizer: TapGestureRecognizer()..onTap = () => onTapUrl(url),
-            ),
-          );
-        } else if (mentionPattern.hasMatch(matchedText)) {
-          parts.add(
-            TextSpan(
-              text: matchedText,
-              style: hyperlinkStyle,
-              recognizer: TapGestureRecognizer()..onTap = onTapMention,
-            ),
-          );
-        } else if (hashtagPattern.hasMatch(matchedText)) {
-          parts.add(
-            TextSpan(
-              text: matchedText,
-              style: hyperlinkStyle,
-              recognizer: TapGestureRecognizer()..onTap = onTapHashtag,
-            ),
-          );
-        }
-
-        currentPosition = match.end;
-      }
-
-      if (currentPosition < text.length) {
-        final remainingText = text.substring(currentPosition);
-        parts.add(TextSpan(text: remainingText, style: normalStyle));
-      }
-
       return RichText(
         text: TextSpan(children: parts),
       );
