@@ -51,13 +51,17 @@ class Patterns {
   static final RegExp hashtagPattern = RegExp(r'#[0-9a-zA-Zぁ-んァ-ヶｱ-ﾝﾞﾟ一-龠]+');
 }
 
+class Styles {
+  Styles._();
+
+  static const TextStyle normal = TextStyle(color: Colors.black);
+  static const TextStyle hyperlink = TextStyle(color: Colors.blue);
+}
+
 class HyperlinkText extends StatelessWidget {
   const HyperlinkText({super.key, required this.text});
 
   final String text;
-
-  final TextStyle normalStyle = const TextStyle(color: Colors.black);
-  final TextStyle hyperlinkStyle = const TextStyle(color: Colors.blue);
 
   List<Match> allMatchList() {
     final List<Match> allMatches = [];
@@ -81,7 +85,7 @@ class HyperlinkText extends StatelessWidget {
     for (var match in allMatches) {
       if (currentPosition < match.start) {
         final textPart = text.substring(currentPosition, match.start);
-        parts.add(TextSpan(text: textPart, style: normalStyle));
+        parts.add(TextSpan(text: textPart, style: Styles.normal));
       }
 
       final matchedText = text.substring(match.start, match.end);
@@ -90,7 +94,7 @@ class HyperlinkText extends StatelessWidget {
         parts.add(
           TextSpan(
             text: matchedText,
-            style: hyperlinkStyle,
+            style: Styles.hyperlink,
             recognizer: TapGestureRecognizer()..onTap = () => onTapUrl(url),
           ),
         );
@@ -98,7 +102,7 @@ class HyperlinkText extends StatelessWidget {
         parts.add(
           TextSpan(
             text: matchedText,
-            style: hyperlinkStyle,
+            style: Styles.hyperlink,
             recognizer: TapGestureRecognizer()..onTap = onTapMention,
           ),
         );
@@ -106,7 +110,7 @@ class HyperlinkText extends StatelessWidget {
         parts.add(
           TextSpan(
             text: matchedText,
-            style: hyperlinkStyle,
+            style: Styles.hyperlink,
             recognizer: TapGestureRecognizer()..onTap = onTapHashtag,
           ),
         );
@@ -116,7 +120,7 @@ class HyperlinkText extends StatelessWidget {
     }
     if (currentPosition < text.length) {
       final remainingText = text.substring(currentPosition);
-      parts.add(TextSpan(text: remainingText, style: normalStyle));
+      parts.add(TextSpan(text: remainingText, style: Styles.normal));
     }
     return parts;
   }
