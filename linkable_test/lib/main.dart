@@ -139,16 +139,11 @@ class HyperlinkText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Match> allMatches = allMatchList();
+    final allMatches = allMatchList();
     final parts = textSpan(allMatches);
-    if (allMatches.isNotEmpty) {
-      return RichText(
-        text: TextSpan(children: parts),
-      );
-    } else {
-      return RichText(
-        text: TextSpan(text: text),
-      );
-    }
+    return RichText(
+      text:
+          allMatches.isEmpty ? TextSpan(text: text) : TextSpan(children: parts),
+    );
   }
 }
