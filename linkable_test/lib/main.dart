@@ -43,6 +43,14 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
+class Patterns {
+  Patterns._();
+
+  static final RegExp url = RegExp(r" https?://[\w!?/+\-_~;.,*&@#$%()'[\]]+");
+  static final RegExp mention = RegExp(r' @(\w+)');
+  static final RegExp hashtagPattern = RegExp(r'#[0-9a-zA-Zぁ-んァ-ヶｱ-ﾝﾞﾟ一-龠]+');
+}
+
 class HyperlinkText extends StatelessWidget {
   const HyperlinkText({super.key, required this.text});
 
@@ -52,14 +60,12 @@ class HyperlinkText extends StatelessWidget {
   final TextStyle hyperlinkStyle = const TextStyle(color: Colors.blue);
 
   List<Match> allMatchList() {
-    final urlPattern = RegExp(r" https?://[\w!?/+\-_~;.,*&@#$%()'[\]]+");
-    final mentionPattern = RegExp(r' @(\w+)');
-    final hashtagPattern = RegExp(r'#[0-9a-zA-Zぁ-んァ-ヶｱ-ﾝﾞﾟ一-龠]+');
-    final urlMatches = urlPattern.allMatches(text);
-    final mentionMatches = mentionPattern.allMatches(text);
-    final hashtagMatches = hashtagPattern.allMatches(text);
-
     final List<Match> allMatches = [];
+
+    final urlMatches = Patterns.url.allMatches(text);
+    final mentionMatches = Patterns.mention.allMatches(text);
+    final hashtagMatches = Patterns.hashtagPattern.allMatches(text);
+
     allMatches.addAll(urlMatches);
     allMatches.addAll(mentionMatches);
     allMatches.addAll(hashtagMatches);
@@ -72,10 +78,6 @@ class HyperlinkText extends StatelessWidget {
     final parts = <TextSpan>[];
     int currentPosition = 0;
 
-    final urlPattern = RegExp(r" https?://[\w!?/+\-_~;.,*&@#$%()'[\]]+");
-    final mentionPattern = RegExp(r' @(\w+)');
-    final hashtagPattern = RegExp(r'#[0-9a-zA-Zぁ-んァ-ヶｱ-ﾝﾞﾟ一-龠]+');
-
     for (var match in allMatches) {
       if (currentPosition < match.start) {
         final textPart = text.substring(currentPosition, match.start);
@@ -83,7 +85,7 @@ class HyperlinkText extends StatelessWidget {
       }
 
       final matchedText = text.substring(match.start, match.end);
-      if (urlPattern.hasMatch(matchedText)) {
+      if (Patterns.url.hasMatch(matchedText)) {
         final url = matchedText.replaceAll(' ', '');
         parts.add(
           TextSpan(
@@ -92,7 +94,7 @@ class HyperlinkText extends StatelessWidget {
             recognizer: TapGestureRecognizer()..onTap = () => onTapUrl(url),
           ),
         );
-      } else if (mentionPattern.hasMatch(matchedText)) {
+      } else if (Patterns.mention.hasMatch(matchedText)) {
         parts.add(
           TextSpan(
             text: matchedText,
@@ -100,7 +102,7 @@ class HyperlinkText extends StatelessWidget {
             recognizer: TapGestureRecognizer()..onTap = onTapMention,
           ),
         );
-      } else if (hashtagPattern.hasMatch(matchedText)) {
+      } else if (Patterns.hashtagPattern.hasMatch(matchedText)) {
         parts.add(
           TextSpan(
             text: matchedText,
