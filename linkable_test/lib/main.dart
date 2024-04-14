@@ -63,35 +63,37 @@ class HyperlinkText extends StatelessWidget {
 
   final String text;
 
-  List<Match> allMatchList() {
-    final List<Match> allMatches = [];
+  List<Match> matchList() {
+    final List<Match> matches = [];
 
     final urlMatches = Patterns.url.allMatches(text);
     final mentionMatches = Patterns.mention.allMatches(text);
     final hashtagMatches = Patterns.hashtagPattern.allMatches(text);
 
-    allMatches.addAll(urlMatches);
-    allMatches.addAll(mentionMatches);
-    allMatches.addAll(hashtagMatches);
-    allMatches.sort((a, b) => a.start.compareTo(b.start));
+    matches.addAll(urlMatches);
+    matches.addAll(mentionMatches);
+    matches.addAll(hashtagMatches);
+    matches.sort((a, b) => a.start.compareTo(b.start));
 
-    return allMatches;
+    return matches;
   }
 
-  List<TextSpan> textSpan(List<Match> allMatches) {
-    final parts = <TextSpan>[];
+  List<TextSpan> textSpanList(List<Match> allMatches) {
+    final textSpans = <TextSpan>[];
     int currentPosition = 0;
 
     for (var match in allMatches) {
       if (currentPosition < match.start) {
         final textPart = text.substring(currentPosition, match.start);
-        parts.add(TextSpan(text: textPart, style: Styles.normal));
+        textSpans.add(
+          TextSpan(text: textPart, style: Styles.normal),
+        );
       }
 
       final matchedText = text.substring(match.start, match.end);
       if (Patterns.url.hasMatch(matchedText)) {
         final url = matchedText.replaceAll(' ', '');
-        parts.add(
+        textSpans.add(
           TextSpan(
             text: matchedText,
             style: Styles.hyperlink,
@@ -99,19 +101,22 @@ class HyperlinkText extends StatelessWidget {
           ),
         );
       } else if (Patterns.mention.hasMatch(matchedText)) {
-        parts.add(
+        final mention = matchedText.replaceAll(' ', '');
+        textSpans.add(
           TextSpan(
             text: matchedText,
             style: Styles.hyperlink,
-            recognizer: TapGestureRecognizer()..onTap = onTapMention,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => onTapMention(mention),
           ),
         );
       } else if (Patterns.hashtagPattern.hasMatch(matchedText)) {
-        parts.add(
+        textSpans.add(
           TextSpan(
             text: matchedText,
             style: Styles.hyperlink,
-            recognizer: TapGestureRecognizer()..onTap = onTapHashtag,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => onTapHashtag(matchedText),
           ),
         );
       }
@@ -120,30 +125,33 @@ class HyperlinkText extends StatelessWidget {
     }
     if (currentPosition < text.length) {
       final remainingText = text.substring(currentPosition);
-      parts.add(TextSpan(text: remainingText, style: Styles.normal));
+      textSpans.add(
+        TextSpan(text: remainingText, style: Styles.normal),
+      );
     }
-    return parts;
+    return textSpans;
   }
 
-  void onTapMention() {
-    debugPrint('On tap mention');
+  void onTapMention(String mention) {
+    debugPrint('On tap mention: $mention');
   }
 
   void onTapUrl(String url) {
-    debugPrint('On tap Url: $url');
+    debugPrint('On tap url: $url');
   }
 
-  void onTapHashtag() {
-    debugPrint('On tap hashtag');
+  void onTapHashtag(String hashtag) {
+    debugPrint('On tap hashtag: $hashtag');
   }
 
   @override
   Widget build(BuildContext context) {
-    final allMatches = allMatchList();
-    final parts = textSpan(allMatches);
+    final allMatches = matchList();
+    final textSpans = textSpanList(allMatches);
     return RichText(
-      text:
-          allMatches.isEmpty ? TextSpan(text: text) : TextSpan(children: parts),
+      text: allMatches.isEmpty
+          ? TextSpan(text: text)
+          : TextSpan(children: textSpans),
     );
   }
 }
