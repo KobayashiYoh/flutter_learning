@@ -1,6 +1,9 @@
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -30,6 +33,21 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _userPool = CognitoUserPool(
+    dotenv.env['USER_POOL_ID'] ?? '',
+    dotenv.env['CLIENT_ID'] ?? '',
+  );
+
+  Future<void> _signUp() async {
+    try {
+      await _userPool.signUp(
+        _emailController.text,
+        _passwordController.text,
+      );
+    } catch (e) {
+      debugPrint('Failed to sign up: $e');
+    }
+  }
 
   @override
   void dispose() {
@@ -62,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: _signUp,
               child: const Text('アカウント登録'),
             ),
           ],
