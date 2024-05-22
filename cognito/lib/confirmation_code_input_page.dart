@@ -24,8 +24,10 @@ class _ConfirmationCodeInputPageState extends State<ConfirmationCodeInputPage> {
         _confirmationCodeController.text,
       );
     } catch (e) {
-      debugPrint('Failed to confirmation registration: $e');
+      debugPrint(e.toString());
     }
+    if (!mounted) return;
+    Navigator.of(context).pop();
   }
 
   @override
