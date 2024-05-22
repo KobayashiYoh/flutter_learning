@@ -1,7 +1,6 @@
-import 'package:amazon_cognito_identity_dart_2/cognito.dart';
+import 'package:cognito/cognito_service.dart';
 import 'package:cognito/confirmation_code_input_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class EmailAndPasswordInputPage extends StatefulWidget {
   const EmailAndPasswordInputPage({super.key});
@@ -14,19 +13,15 @@ class EmailAndPasswordInputPage extends StatefulWidget {
 class _EmailAndPasswordInputPageState extends State<EmailAndPasswordInputPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _userPool = CognitoUserPool(
-    dotenv.env['USER_POOL_ID'] ?? '',
-    dotenv.env['CLIENT_ID'] ?? '',
-  );
 
-  Future<void> _signUp() async {
+  Future<void> _onPressedSendConfirmationCode() async {
     try {
-      await _userPool.signUp(
+      await CognitoService.signUp(
         _emailController.text,
         _passwordController.text,
       );
     } catch (e) {
-      debugPrint('Failed to sign up: $e');
+      debugPrint(e.toString());
     }
     if (!mounted) return;
     Navigator.of(context).push(
@@ -69,7 +64,7 @@ class _EmailAndPasswordInputPageState extends State<EmailAndPasswordInputPage> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: _signUp,
+              onPressed: _onPressedSendConfirmationCode,
               child: const Text('確認コードを送信'),
             ),
           ],

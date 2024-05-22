@@ -1,6 +1,5 @@
-import 'package:amazon_cognito_identity_dart_2/cognito.dart';
+import 'package:cognito/cognito_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ConfirmationCodeInputPage extends StatefulWidget {
   const ConfirmationCodeInputPage({
@@ -17,15 +16,13 @@ class ConfirmationCodeInputPage extends StatefulWidget {
 
 class _ConfirmationCodeInputPageState extends State<ConfirmationCodeInputPage> {
   final _confirmationCodeController = TextEditingController();
-  final _userPool = CognitoUserPool(
-    dotenv.env['USER_POOL_ID'] ?? '',
-    dotenv.env['CLIENT_ID'] ?? '',
-  );
 
   Future<void> _signUp() async {
-    final cognitoUser = CognitoUser(widget.email, _userPool);
     try {
-      await cognitoUser.confirmRegistration(_confirmationCodeController.text);
+      await CognitoService.confirmRegistration(
+        widget.email,
+        _confirmationCodeController.text,
+      );
     } catch (e) {
       debugPrint('Failed to confirmation registration: $e');
     }
